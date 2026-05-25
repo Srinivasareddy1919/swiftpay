@@ -1,0 +1,9 @@
+target/
+*.class
+.idea/
+.vscode/
+*.iml
+.DS_Store
+results.json
+*.pcap
+!swiftpay-load.pcap

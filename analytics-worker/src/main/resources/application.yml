@@ -1,0 +1,26 @@
+spring:
+  application: { name: analytics-worker }
+  datasource:
+    url: jdbc:h2:mem:analytics;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate: { ddl-auto: update }
+    open-in-view: false
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: analytics-worker
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+
+server: { port: 8080 }
+management:
+  endpoints: { web: { exposure: { include: health,info,metrics,prometheus } } }
+
+swiftpay:
+  topics: { payment-completed: payment.completed }
